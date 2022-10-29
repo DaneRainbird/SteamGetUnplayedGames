@@ -8,11 +8,13 @@
 // Imports
 const dotenv = require('dotenv');
 const express = require('express');
+const cors = require("cors");
 const getUnplayedGames = require('./lib/getUnplayedGames');
 const log = require('./lib/logToFile');
 
 // Configuration
 const app = express();
+app.use(cors());
 dotenv.config();
 
 // Ensure that the API key is set before continuing
