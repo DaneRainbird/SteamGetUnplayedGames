@@ -1,4 +1,4 @@
-# SteamGetUnplayedGames
+# Get Unplayed Steam Games
 A Simple Node.js tool to get your unplayed Steam Games in JSON format.
 
 ## Setup / Running
