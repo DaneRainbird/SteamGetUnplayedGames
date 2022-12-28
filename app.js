@@ -2,7 +2,7 @@
     File: app.js
     Author: Dane Rainbird (hello@danerainbird.me)
     Purpose: Contains the main code for the webapp to run
-    Last Edited: 2022-10-29
+    Last Edited: 2022-12-29
 */
 
 // Imports
@@ -10,6 +10,7 @@ const dotenv = require('dotenv');
 const express = require('express');
 const cors = require("cors");
 const getUnplayedGames = require('./lib/getUnplayedGames');
+const getSteamAccountDetails = require('./lib/getSteamUserDetails');
 const log = require('./lib/logToFile');
 
 // Configuration
@@ -30,6 +31,7 @@ console.log(`Server started on port ${process.env.PORT || 8080}`);
 // Main route, used for getting unplayed games from a particular steam UUID
 app.get('/steam/getUnplayedGames/:uuid', async (req, res) => {
     const uuid = req.params.uuid;
+    const details = await getSteamAccountDetails(uuid);
     getSteamUnplayedGames(uuid)
         .then((games) => {
             // For each game, only return the name and appid
@@ -44,7 +46,9 @@ app.get('/steam/getUnplayedGames/:uuid', async (req, res) => {
             let retData = {
                 "meta": {
                     "status": "200",
-                    "uuid": uuid
+                    "uuid": uuid,
+                    "username": details.personaname,
+                    "profileURL": details.profileurl
                 },
                 "games": gameNames
             }
